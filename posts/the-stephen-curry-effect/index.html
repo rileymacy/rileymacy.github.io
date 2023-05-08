@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Riley Macy">
+<meta name="dcterms.date" content="2023-05-07">
 
-<title>Riley Macy's Blog – index</title>
+<title>Riley Macy’s Blog - The Stephen Curry Effect</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,7 +170,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">The Stephen Curry Effect</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">nba</div>
+                <div class="quarto-category">curry</div>
+                <div class="quarto-category">basketball</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Riley Macy </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 7, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
@@ -177,668 +212,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+
+<p>Stephen Curry entered the league as the No.&nbsp;7 overall pick in the 2009 NBA Draft. He was selected by the Warriors and was instantly impactful. He was a very good shooter coming out of college setting the conference record for the most three pointers made. This was shown pretty quickly out of his career when he set the record for most three pointers made in the 2012-2013 season just three seasons into his career. He followed this up by beating his own record in 2015 and 2016. His three point shooting and the rate at which he shot them created a huge ripple throughout the NBA. The Warriors ran smaller lineups and valued the three pointer more coming from Curry and fellow splash brother Klay Thompsen. This resulted in change all over the league to look for more shooters to spread the court and create open shots from behind the three point line.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0      ✔ purrr   1.0.1 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hoopR)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>seasonavg <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"seasonaverages.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Season, <span class="at">into=</span><span class="fu">c</span>(<span class="st">"SeasonStart"</span>, <span class="st">"SeasonEnd"</span>), <span class="at">sep=</span><span class="st">"-"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">SeasonStart =</span> <span class="fu">as.numeric</span>(SeasonStart))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>total23 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals23.csv"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>total22 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals22.csv"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>total21 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals21.csv"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>total20 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals20.csv"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>total19 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals19.csv"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>total18 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals18.csv"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>total17 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals17.csv"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>total16 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals16.csv"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>total15 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals15.csv"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>total14 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals14.csv"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>total13 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals13.csv"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>total12 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals12.csv"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>total11 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals11.csv"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>total10 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals10.csv"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>total09 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals09.csv"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>total08 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals08.csv"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>total07 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals07.csv"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>total06 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals06.csv"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>total05 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals05.csv"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>total04 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals04.csv"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>total03 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals03.csv"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>total02 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals02.csv"</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>total01 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals01.csv"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>total00 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals00.csv"</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>total99 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals99.csv"</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>total98 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals98.csv"</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>total97 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals97.csv"</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>total96 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals96.csv"</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>total95 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals95.csv"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>total94 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals94.csv"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>total93 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals93.csv"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>total92 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals92.csv"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>total91 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals91.csv"</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>total90 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals90.csv"</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>total89 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals89.csv"</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>total88 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals88.csv"</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>total87 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals87.csv"</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>total86 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals86.csv"</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>total85 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals85.csv"</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>total84 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals84.csv"</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>total83 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals83.csv"</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>total82 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals82.csv"</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>total81 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals81.csv"</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>total80 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals80.csv"</span>)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>totals23 <span class="ot">&lt;-</span> total23 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2023</span>) </span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>totals22 <span class="ot">&lt;-</span> total22 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2022</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>totals21 <span class="ot">&lt;-</span> total21 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2021</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>totals20 <span class="ot">&lt;-</span> total20 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2020</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>totals19 <span class="ot">&lt;-</span> total19 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2019</span>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>totals18 <span class="ot">&lt;-</span> total18 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2018</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>totals17 <span class="ot">&lt;-</span> total17 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2017</span>)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>totals16 <span class="ot">&lt;-</span> total16 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2016</span>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>totals15 <span class="ot">&lt;-</span> total15 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2015</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>totals14 <span class="ot">&lt;-</span> total14 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2014</span>)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>totals13 <span class="ot">&lt;-</span> total13 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2013</span>)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>totals12 <span class="ot">&lt;-</span> total12 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2012</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>totals11 <span class="ot">&lt;-</span> total11 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2011</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>totals10 <span class="ot">&lt;-</span> total10 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2010</span>)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>totals09 <span class="ot">&lt;-</span> total09 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2009</span>)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>totals08 <span class="ot">&lt;-</span> total08 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2008</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>totals07 <span class="ot">&lt;-</span> total07 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2007</span>)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>totals06 <span class="ot">&lt;-</span> total06 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2006</span>)</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>totals05 <span class="ot">&lt;-</span> total05 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2005</span>)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>totals04 <span class="ot">&lt;-</span> total04 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2004</span>)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>totals03 <span class="ot">&lt;-</span> total03 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2003</span>)</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>totals02 <span class="ot">&lt;-</span> total02 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2002</span>)</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>totals01 <span class="ot">&lt;-</span> total01 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2001</span>)</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>totals00 <span class="ot">&lt;-</span> total00 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2000</span>)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>totals99 <span class="ot">&lt;-</span> total99 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1999</span>)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>totals98 <span class="ot">&lt;-</span> total98 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1998</span>)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>totals97 <span class="ot">&lt;-</span> total97 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1997</span>)</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>totals96 <span class="ot">&lt;-</span> total96 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1996</span>)</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>totals95 <span class="ot">&lt;-</span> total95 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1995</span>)</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>totals94 <span class="ot">&lt;-</span> total94 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1994</span>)</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>totals93 <span class="ot">&lt;-</span> total93 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1993</span>)</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>totals92 <span class="ot">&lt;-</span> total92 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1992</span>)</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>totals91 <span class="ot">&lt;-</span> total91 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1991</span>)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>totals90 <span class="ot">&lt;-</span> total90 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1990</span>)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>totals89 <span class="ot">&lt;-</span> total89 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1989</span>)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>totals88 <span class="ot">&lt;-</span> total88 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1988</span>)</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>totals87 <span class="ot">&lt;-</span> total87 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1987</span>)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>totals86 <span class="ot">&lt;-</span> total86 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1986</span>)</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>totals85 <span class="ot">&lt;-</span> total85 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1985</span>)</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>totals84 <span class="ot">&lt;-</span> total84 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1984</span>)</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>totals83 <span class="ot">&lt;-</span> total83 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1983</span>)</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>totals82 <span class="ot">&lt;-</span> total82 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1982</span>)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>totals81 <span class="ot">&lt;-</span> total81 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1981</span>)</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>totals80 <span class="ot">&lt;-</span> total80 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1980</span>)</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>totals <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(totals23, totals22, totals21, totals20, totals19, totals18, totals17, totals16, totals15, totals14, totals13, totals12, totals11, totals10, totals09, totals08, totals07, totals06, totals05, totals04, totals03, totals02, totals01, totals00, totals99, totals98, totals97, totals96, totals95, totals94, totals93, totals92, totals91, totals90, totals89, totals88, totals87, totals86, totals85, totals84, totals83, totals82, totals81, totals80)</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>warriors <span class="ot">&lt;-</span> totals <span class="sc">%&gt;%</span> </span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Team) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team <span class="sc">==</span> <span class="st">"Golden State Warriors*"</span>,</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>         Season <span class="sc">&gt;</span> <span class="dv">2009</span>)</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>celtics <span class="ot">&lt;-</span> totals <span class="sc">%&gt;%</span> </span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Team) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Team <span class="sc">==</span> <span class="st">"Boston Celtics*"</span>,</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>         Season <span class="sc">==</span> <span class="dv">2023</span>)</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>stepheffect <span class="ot">&lt;-</span> totals <span class="sc">%&gt;%</span> </span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Team) <span class="sc">%&gt;%</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Season <span class="sc">&gt;=</span> <span class="dv">2009</span>)</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>seasonmutate <span class="ot">&lt;-</span> seasonavg <span class="sc">%&gt;%</span> </span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">2PTa</span><span class="st">`</span> <span class="ot">=</span> FGA <span class="sc">-</span> <span class="st">`</span><span class="at">3PA</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hoopR)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'rvest'
-
-The following object is masked from 'package:readr':
-
-    guess_encoding</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>The three point line was introduced in the 1979-1980 season but it was not being used very often, only gaining a couple shots per game. The three point line was shortened in 1995 causing an uptick in the amount of three pointers made. A huge jump is seen during Stephen Curry’s career. When he entered the league in 2009 the average number of threes taken was around six per game and now it has almost doubled with over 12 threes taken per game.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seasonavg <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"seasonaverages.csv"</span>) <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Season, <span class="at">into=</span><span class="fu">c</span>(<span class="st">"SeasonStart"</span>, <span class="st">"SeasonEnd"</span>), <span class="at">sep=</span><span class="st">"-"</span>) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">SeasonStart =</span> <span class="fu">as.numeric</span>(SeasonStart))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 44 Columns: 32
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (3): Season, Lg, Ht
-dbl (29): Rk, Age, Wt, G, MP, FG, FGA, 3P, 3PA, FT, FTA, ORB, DRB, TRB, AST,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>total23 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals23.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>total22 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals22.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>total21 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals21.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>total20 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals20.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>total19 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals19.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>total18 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals18.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>total17 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals17.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>total16 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals16.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>total15 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals15.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>total14 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals14.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>total13 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals13.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>total12 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals12.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>total11 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals11.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>total10 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals10.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>total09 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals09.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>total08 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals08.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>total07 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals07.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>total06 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals06.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>total05 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals05.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 30 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>total04 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals04.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>total03 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals03.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>total02 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals02.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>total01 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals01.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>total00 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals00.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>total99 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals99.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>total98 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals98.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>total97 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals97.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>total96 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals96.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 29 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>total95 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals95.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 27 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>total94 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals94.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 27 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>total93 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals93.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 27 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>total92 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals92.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 27 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>total91 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals91.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 27 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>total90 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals90.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 27 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>total89 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals89.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 25 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>total88 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals88.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>total87 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals87.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>total86 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals86.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>total85 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals85.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 24 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>total84 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals84.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>total83 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals83.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>total82 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals82.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>total81 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals81.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>total80 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"teamtotals80.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23 Columns: 25
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): Team
-dbl (24): Rk, G, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, FT, FTA, FT%,...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>totals23 <span class="ot">&lt;-</span> total23 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2023</span>) </span>
-<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>totals22 <span class="ot">&lt;-</span> total22 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2022</span>)</span>
-<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>totals21 <span class="ot">&lt;-</span> total21 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2021</span>)</span>
-<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>totals20 <span class="ot">&lt;-</span> total20 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2020</span>)</span>
-<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>totals19 <span class="ot">&lt;-</span> total19 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2019</span>)</span>
-<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>totals18 <span class="ot">&lt;-</span> total18 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2018</span>)</span>
-<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>totals17 <span class="ot">&lt;-</span> total17 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2017</span>)</span>
-<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>totals16 <span class="ot">&lt;-</span> total16 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2016</span>)</span>
-<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>totals15 <span class="ot">&lt;-</span> total15 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2015</span>)</span>
-<span id="cb96-10"><a href="#cb96-10" aria-hidden="true" tabindex="-1"></a>totals14 <span class="ot">&lt;-</span> total14 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2014</span>)</span>
-<span id="cb96-11"><a href="#cb96-11" aria-hidden="true" tabindex="-1"></a>totals13 <span class="ot">&lt;-</span> total13 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2013</span>)</span>
-<span id="cb96-12"><a href="#cb96-12" aria-hidden="true" tabindex="-1"></a>totals12 <span class="ot">&lt;-</span> total12 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2012</span>)</span>
-<span id="cb96-13"><a href="#cb96-13" aria-hidden="true" tabindex="-1"></a>totals11 <span class="ot">&lt;-</span> total11 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2011</span>)</span>
-<span id="cb96-14"><a href="#cb96-14" aria-hidden="true" tabindex="-1"></a>totals10 <span class="ot">&lt;-</span> total10 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2010</span>)</span>
-<span id="cb96-15"><a href="#cb96-15" aria-hidden="true" tabindex="-1"></a>totals09 <span class="ot">&lt;-</span> total09 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2009</span>)</span>
-<span id="cb96-16"><a href="#cb96-16" aria-hidden="true" tabindex="-1"></a>totals08 <span class="ot">&lt;-</span> total08 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2008</span>)</span>
-<span id="cb96-17"><a href="#cb96-17" aria-hidden="true" tabindex="-1"></a>totals07 <span class="ot">&lt;-</span> total07 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2007</span>)</span>
-<span id="cb96-18"><a href="#cb96-18" aria-hidden="true" tabindex="-1"></a>totals06 <span class="ot">&lt;-</span> total06 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2006</span>)</span>
-<span id="cb96-19"><a href="#cb96-19" aria-hidden="true" tabindex="-1"></a>totals05 <span class="ot">&lt;-</span> total05 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2005</span>)</span>
-<span id="cb96-20"><a href="#cb96-20" aria-hidden="true" tabindex="-1"></a>totals04 <span class="ot">&lt;-</span> total04 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2004</span>)</span>
-<span id="cb96-21"><a href="#cb96-21" aria-hidden="true" tabindex="-1"></a>totals03 <span class="ot">&lt;-</span> total03 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2003</span>)</span>
-<span id="cb96-22"><a href="#cb96-22" aria-hidden="true" tabindex="-1"></a>totals02 <span class="ot">&lt;-</span> total02 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2002</span>)</span>
-<span id="cb96-23"><a href="#cb96-23" aria-hidden="true" tabindex="-1"></a>totals01 <span class="ot">&lt;-</span> total01 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2001</span>)</span>
-<span id="cb96-24"><a href="#cb96-24" aria-hidden="true" tabindex="-1"></a>totals00 <span class="ot">&lt;-</span> total00 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">2000</span>)</span>
-<span id="cb96-25"><a href="#cb96-25" aria-hidden="true" tabindex="-1"></a>totals99 <span class="ot">&lt;-</span> total99 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1999</span>)</span>
-<span id="cb96-26"><a href="#cb96-26" aria-hidden="true" tabindex="-1"></a>totals98 <span class="ot">&lt;-</span> total98 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1998</span>)</span>
-<span id="cb96-27"><a href="#cb96-27" aria-hidden="true" tabindex="-1"></a>totals97 <span class="ot">&lt;-</span> total97 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1997</span>)</span>
-<span id="cb96-28"><a href="#cb96-28" aria-hidden="true" tabindex="-1"></a>totals96 <span class="ot">&lt;-</span> total96 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1996</span>)</span>
-<span id="cb96-29"><a href="#cb96-29" aria-hidden="true" tabindex="-1"></a>totals95 <span class="ot">&lt;-</span> total95 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1995</span>)</span>
-<span id="cb96-30"><a href="#cb96-30" aria-hidden="true" tabindex="-1"></a>totals94 <span class="ot">&lt;-</span> total94 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1994</span>)</span>
-<span id="cb96-31"><a href="#cb96-31" aria-hidden="true" tabindex="-1"></a>totals93 <span class="ot">&lt;-</span> total93 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1993</span>)</span>
-<span id="cb96-32"><a href="#cb96-32" aria-hidden="true" tabindex="-1"></a>totals92 <span class="ot">&lt;-</span> total92 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1992</span>)</span>
-<span id="cb96-33"><a href="#cb96-33" aria-hidden="true" tabindex="-1"></a>totals91 <span class="ot">&lt;-</span> total91 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1991</span>)</span>
-<span id="cb96-34"><a href="#cb96-34" aria-hidden="true" tabindex="-1"></a>totals90 <span class="ot">&lt;-</span> total90 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1990</span>)</span>
-<span id="cb96-35"><a href="#cb96-35" aria-hidden="true" tabindex="-1"></a>totals89 <span class="ot">&lt;-</span> total89 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1989</span>)</span>
-<span id="cb96-36"><a href="#cb96-36" aria-hidden="true" tabindex="-1"></a>totals88 <span class="ot">&lt;-</span> total88 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1988</span>)</span>
-<span id="cb96-37"><a href="#cb96-37" aria-hidden="true" tabindex="-1"></a>totals87 <span class="ot">&lt;-</span> total87 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1987</span>)</span>
-<span id="cb96-38"><a href="#cb96-38" aria-hidden="true" tabindex="-1"></a>totals86 <span class="ot">&lt;-</span> total86 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1986</span>)</span>
-<span id="cb96-39"><a href="#cb96-39" aria-hidden="true" tabindex="-1"></a>totals85 <span class="ot">&lt;-</span> total85 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1985</span>)</span>
-<span id="cb96-40"><a href="#cb96-40" aria-hidden="true" tabindex="-1"></a>totals84 <span class="ot">&lt;-</span> total84 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1984</span>)</span>
-<span id="cb96-41"><a href="#cb96-41" aria-hidden="true" tabindex="-1"></a>totals83 <span class="ot">&lt;-</span> total83 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1983</span>)</span>
-<span id="cb96-42"><a href="#cb96-42" aria-hidden="true" tabindex="-1"></a>totals82 <span class="ot">&lt;-</span> total82 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1982</span>)</span>
-<span id="cb96-43"><a href="#cb96-43" aria-hidden="true" tabindex="-1"></a>totals81 <span class="ot">&lt;-</span> total81 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1981</span>)</span>
-<span id="cb96-44"><a href="#cb96-44" aria-hidden="true" tabindex="-1"></a>totals80 <span class="ot">&lt;-</span> total80 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Season =</span> <span class="dv">1980</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>totals <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(totals23, totals22, totals21, totals20, totals19, totals18, totals17, totals16, totals15, totals14, totals13, totals12, totals11, totals10, totals09, totals08, totals07, totals06, totals05, totals04, totals03, totals02, totals01, totals00, totals99, totals98, totals97, totals96, totals95, totals94, totals93, totals92, totals91, totals90, totals89, totals88, totals87, totals86, totals85, totals84, totals83, totals82, totals81, totals80)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>seasonavg, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>seasonavg, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>)) <span class="sc">+</span> </span>
-<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="dv">2009</span>, <span class="at">xmax=</span><span class="dv">2023</span>, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span><span class="dv">13</span>), <span class="at">fill=</span><span class="st">"orange"</span>, <span class="at">alpha=</span>.<span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="dv">1994</span>, <span class="at">xmax=</span><span class="dv">1996</span>, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span><span class="dv">13</span>), <span class="at">fill=</span><span class="st">"light blue"</span>, <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1991</span>, <span class="at">y =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">"Three Point Line </span><span class="sc">\n</span><span class="st"> Shortnened"</span>), <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">2015</span>, <span class="at">y =</span> <span class="dv">5</span>, <span class="at">label =</span> <span class="st">"Stephen Curry's Career"</span>), <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
-<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">" "</span>,</span>
-<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Season Average 3 Pointers Made per Game"</span>,</span>
-<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"Three Pointers Made Average "</span>,</span>
-<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span> <span class="st">"The league average of 3 pointers made increased drastically </span><span class="sc">\n</span><span class="st"> first in 1993 and next when steph entered the league "</span>,</span>
-<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span> <span class="st">"Source: BasketballReference | By Riley Macy"</span></span>
-<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">10</span>),</span>
-<span id="cb98-19"><a href="#cb98-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
-<span id="cb98-20"><a href="#cb98-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb98-21"><a href="#cb98-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position=</span><span class="st">"plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>seasonavg, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>seasonavg, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>)) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="dv">2009</span>, <span class="at">xmax=</span><span class="dv">2023</span>, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span><span class="dv">13</span>), <span class="at">fill=</span><span class="st">"orange"</span>, <span class="at">alpha=</span>.<span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="dv">1994</span>, <span class="at">xmax=</span><span class="dv">1996</span>, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span><span class="dv">13</span>), <span class="at">fill=</span><span class="st">"light blue"</span>, <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1991</span>, <span class="at">y =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">"Three Point Line </span><span class="sc">\n</span><span class="st"> Shortnened"</span>), <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">2015</span>, <span class="at">y =</span> <span class="dv">5</span>, <span class="at">label =</span> <span class="st">"Stephen Curry's Career"</span>), <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">" "</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Season Average 3 Pointers Made per Game"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"Three Pointers Made Average "</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span> <span class="st">"The league average of 3 pointers made increased drastically </span><span class="sc">\n</span><span class="st"> first in 1993 and next when steph entered the league "</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span> <span class="st">"Source: BasketballReference | By Riley Macy"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">10</span>),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position=</span><span class="st">"plot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<pre><code>::: {.cell}
-
-```{.r .cell-code}
-warriors &lt;- totals %&gt;% 
-  group_by(Team) %&gt;% 
-  filter(Team == "Golden State Warriors*",
-         Season &gt; 2009)
-celtics &lt;- totals %&gt;% 
-  group_by(Team) %&gt;% 
-  filter(Team == "Boston Celtics*",
-         Season == 2023)
-stepheffect &lt;- totals %&gt;% 
-  group_by(Team) %&gt;%
-  filter(Season &gt;= 2009)</code></pre>
-<p>:::</p>
+<p>If teams were going to start taking more threes they better start making them too. Seasons after steph had entered the league are at the top for three pointers attempted and three pointers made.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span>   </span>
-<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>totals, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"light grey"</span>) <span class="sc">+</span> </span>
-<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>(<span class="at">data=</span>stepheffect, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"light blue"</span>) <span class="sc">+</span></span>
-<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>warriors, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>celtics, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"green"</span>) <span class="sc">+</span> </span>
-<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
-<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">"Three Pointers Made"</span>,</span>
-<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Three Pointers Attempted"</span>,</span>
-<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"Three Pointers Made vs Three Pointers Attempted"</span>,</span>
-<span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span> <span class="st">"The Team totals of three pointers made vs attempted, the Warriors are shown in blue, along with the Celtics 2023 team in green. The light blue dots represent all teams since Steph Curry entered the league"</span>,</span>
-<span id="cb100-11"><a href="#cb100-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span> <span class="st">"Source: BasketballReference | By Riley Macy"</span></span>
-<span id="cb100-12"><a href="#cb100-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb100-13"><a href="#cb100-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb100-14"><a href="#cb100-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb100-15"><a href="#cb100-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb100-16"><a href="#cb100-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">10</span>),</span>
-<span id="cb100-17"><a href="#cb100-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
-<span id="cb100-18"><a href="#cb100-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb100-19"><a href="#cb100-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position=</span><span class="st">"plot"</span></span>
-<span id="cb100-20"><a href="#cb100-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span>   </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>totals, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"light grey"</span>) <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>(<span class="at">data=</span>stepheffect, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"light blue"</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>warriors, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>celtics, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">3P</span><span class="st">`</span>, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>) ,<span class="at">color =</span> <span class="st">"green"</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">10</span>, <span class="at">y =</span> <span class="dv">250</span> , <span class="at">label =</span> <span class="st">"Covid"</span>), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1350</span>, <span class="at">y =</span> <span class="dv">3200</span>, <span class="at">label =</span> <span class="st">"Celtics 2023"</span>), <span class="at">color =</span> <span class="st">"green"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">"Three Pointers Made"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Three Pointers Attempted"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"Team Total Three Pointers Made vs Three Pointers Attempted"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span> <span class="st">"The Team totals of every team's season since 1980 three pointers made vs attempted, the Warriors are shown in </span><span class="sc">\n</span><span class="st"> blue, along with the Celtics 2023 team in green. </span><span class="sc">\n</span><span class="st"> The light blue dots represent all teams since Steph Curry entered the league."</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span> <span class="st">"Source: BasketballReference | By Riley Macy"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">10</span>),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position=</span><span class="st">"plot"</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>With the introduction of the three point line the amount of two pointers taken has significantly declined while three pointers are on a steady increase. During Steph Curry’s career the amount of two pointers taken is steady but with an increase in total shots.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>seasonmutate <span class="ot">&lt;-</span> seasonavg <span class="sc">%&gt;%</span> </span>
-<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">2PTa</span><span class="st">`</span> <span class="ot">=</span> FGA <span class="sc">-</span> <span class="st">`</span><span class="at">3PA</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>seasonmutate, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">2PTa</span><span class="st">`</span>, <span class="at">group=</span><span class="dv">1</span>), <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>seasonmutate, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>, <span class="at">group =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
-<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">" "</span>,</span>
-<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Two Pointers vs Three Pointers Attempted"</span>,</span>
-<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"Three Pointers Made Average "</span>,</span>
-<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span> <span class="st">"The league average of 3 pointers made increased drastically </span><span class="sc">\n</span><span class="st"> first in 1993 and next when steph entered the league "</span>,</span>
-<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span> <span class="st">"Source: BasketballReference | By Riley Macy"</span></span>
-<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">10</span>),</span>
-<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
-<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb102-17"><a href="#cb102-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position=</span><span class="st">"plot"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>seasonmutate, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">2PTa</span><span class="st">`</span>, <span class="at">group=</span><span class="dv">1</span>), <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>seasonmutate, <span class="fu">aes</span>(<span class="at">x=</span>SeasonStart, <span class="at">y=</span><span class="st">`</span><span class="at">3PA</span><span class="st">`</span>, <span class="at">group =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="dv">2009</span>, <span class="at">xmax=</span><span class="dv">2023</span>, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span><span class="dv">90</span>), <span class="at">fill=</span><span class="st">"orange"</span>, <span class="at">alpha=</span>.<span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="dv">1994</span>, <span class="at">xmax=</span><span class="dv">1996</span>, <span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span><span class="dv">90</span>), <span class="at">fill=</span><span class="st">"light blue"</span>, <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1991</span>, <span class="at">y =</span> <span class="dv">50</span>, <span class="at">label =</span> <span class="st">"Three Point Line </span><span class="sc">\n</span><span class="st"> Shortnened"</span>), <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">2015</span>, <span class="at">y =</span> <span class="dv">48</span>, <span class="at">label =</span> <span class="st">"Stephen Curry's Career"</span>), <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1983</span>, <span class="at">y =</span> <span class="dv">80</span>, <span class="at">label =</span> <span class="st">"2 Pointers Per Game"</span>), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span> <span class="dv">1983</span>, <span class="at">y =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">"3 Pointers Per Game"</span>), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span> <span class="st">" "</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span> <span class="st">"Two Pointers vs Three Pointers Attempted"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span> <span class="st">"Amount of Three Pointers vs Two Pointers Shot Per Game"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span> <span class="st">"2 pointers shot per game steadilt declines while 3 pointers shot per game steadily increases."</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span> <span class="st">"Source: BasketballReference | By Riley Macy"</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span> <span class="dv">10</span>),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>),</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position=</span><span class="st">"plot"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Stephen Curry’s effect on shooting is all over the league. He truly is one of the best shooters of all time not just off his own accolades but the effect he has had on the league. The game of basketball and its strategy was shifted by one man…Stephen Curry.</p>
 
 
 
